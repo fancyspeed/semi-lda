@@ -26,3 +26,6 @@ inference:
 
 python lda\_infer.py -model model.txt -test test.txt -output result.txt
 
+<b>Evaluation</b>
+
+log-likelihood
