@@ -2,30 +2,30 @@ Semi-supervised LDA, which allows labelling of some documents in training, and a
 
 Besides topics appear in training data and the rule file, new topics also can learned.
 
-<b>Data format</b>
+##Data format
 
-training data:
+* training data:
 
 label1,label2 word1:num1 word2:num2 ...
 
  word3:num3 word4:num4 ...
 
-rule file:
+* rule file:
 
 label1 word1,word2 ...
 
 label2 word3,word4 ...
 
-<b>Example</b>
+##Example
 
-train:
+* train:
 
-python lda\_train.py -train train.txt -rule rule.txt -k 20 -alpha 0.5 -beta 0.1 -model model.txt
+python lda\_train.py -train train.txt -rule rule.txt -k 20 -alpha 0.5 -beta 0.1 -burnin 50 -iter 100 -model model.txt
 
-inference:
+* inference:
 
-python lda\_infer.py -model model.txt -test test.txt -output result.txt
+python lda\_infer.py -model model.txt -alpha 0.5 -beta 0.1 -burnin 50 -test test.txt -output result.txt
 
-<b>Evaluation</b>
+##Evaluation
 
-log-likelihood
+`log-likelihood`
