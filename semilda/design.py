@@ -1,6 +1,12 @@
 
+class Util:
+    def parse_args(self, args):
+        pass
+
 class Corpus:
     doc_list = []
+    def init_corpus(self): 
+        pass
 
 class Document:
     word_list = []
@@ -8,40 +14,32 @@ class Document:
 class Word:
     topic_list = []
 
-class Model:
-    topic_list = []
-
 class Topic:
     word_list = []
 
-class SemiLDA:
-
-    def parse_args(self, args):
-        pass
-
+class Model:
+    topic_list = []
     def init_model(self):
         pass
-
-    def init_corpus(self): 
+    def loglikelihood(self):
         pass
-
-    def train(self):
-        pass
-
-    def infer(self):
-        pass
-
-    def sample_corpus(self):
-        pass
-
-    def sample_doc(self):
-        pass
-
-    def sample_word(self):
-        pass
-
     def stat_corpus(self):
         pass
 
-    def loglikelihood(self):
+class Sampler:
+    def sample_corpus(self):
         pass
+    def sample_doc(self):
+        pass
+    def sample_word(self):
+        pass
+
+class SemiLDA:
+    def init(self):
+        pass
+    def train(self):
+        pass
+    def infer(self):
+        pass
+
+

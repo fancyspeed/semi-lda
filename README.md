@@ -1,11 +1,11 @@
 
-##Description
+## Description
 
 Semi-supervised LDA, which allows labelling of some documents in training, and a rule file to assign seed words for each topic.
 
-Besides topics appear in training data and the rule file, new topics also can learned.
+Besides topics appear in training data and the rule file, new topics can also be learned.
 
-##Data format
+## Data format
 
 * training data:
 
@@ -19,7 +19,7 @@ Besides topics appear in training data and the rule file, new topics also can le
 
     label2 word3,word4 ...
 
-##Example
+## Example
 
 * train:
 
@@ -29,6 +29,12 @@ Besides topics appear in training data and the rule file, new topics also can le
 
     $ python lda\_infer.py -model model.txt -alpha 0.5 -beta 0.1 -burnin 50 -test test.txt -output result.txt
 
-##Evaluation
+## Evaluation
 
 Model performance is evaluated by `log-likelihood`.
+
+## Other plans
+
+* downgrade hot words
+* support continuous-valued word frequences
+* utilization of contextual information
