@@ -20,6 +20,7 @@ class ArgUtil(object):
         self.train_parser.add_argument('-rule', nargs='?', help='rule data (optional)')
         self.train_parser.add_argument('-k', help='total number of topics')
         self.train_parser.add_argument('-iter', dest='max_iter', type=int, default=50, help='total iteration')
+        self.train_parser.add_argument('-s', '--slient', action='store_true', help='no likelihood')
 
         self.infer_parser = argparse.ArgumentParser(parents=[self.base_parser],
                                          description='Semi-supervised LDA.',
@@ -30,6 +31,7 @@ class ArgUtil(object):
     def parse_train_args(self):
         args = self.train_parser.parse_args()
         print args.train
+        print args.slient
 
     def parse_infer_args(self):
         args = self.infer_parser.parse_args()
