@@ -8,34 +8,47 @@ class ArgUtil(object):
 
     def __init__(self):
         self.base_parser = argparse.ArgumentParser(add_help=False)
-        self.base_parser.add_argument('-model', help='model file path')
-        self.base_parser.add_argument('-alpha', help='alpha')
-        self.base_parser.add_argument('-beta', help='beta')
+        self.base_parser.add_argument('-v', '--version', action='version', version='v0.1')
+        self.base_parser.add_argument('-model', required=True, help='model file path')
+        self.base_parser.add_argument('-alpha', type=float, default=0.5, help='alpha')
+        self.base_parser.add_argument('-beta', type=float, default=0.1, help='beta')
         self.base_parser.add_argument('-burnin', dest='burn_in', type=int, default=20, help='burn in iteration')
 
         self.train_parser = argparse.ArgumentParser(parents=[self.base_parser],
                                          description='Semi-supervised LDA.',
                                          epilog='if inference, please use lda_infer.py')
-        self.train_parser.add_argument('-train', help='training data')
+        self.train_parser.add_argument('-train', required=True, help='training data')
         self.train_parser.add_argument('-rule', nargs='?', help='rule data (optional)')
-        self.train_parser.add_argument('-k', help='total number of topics')
+        self.train_parser.add_argument('-k', dest='num_topic', type=int, required=True, help='total number of topics')
         self.train_parser.add_argument('-iter', dest='max_iter', type=int, default=50, help='total iteration')
         self.train_parser.add_argument('-s', '--slient', action='store_true', help='no likelihood')
 
         self.infer_parser = argparse.ArgumentParser(parents=[self.base_parser],
                                          description='Semi-supervised LDA.',
                                          epilog='if training, please use lda_train.py')
-        self.infer_parser.add_argument('-test', help='testing data')
-        self.infer_parser.add_argument('-output', help='output path of inference')
+        self.infer_parser.add_argument('-test', required=True, help='testing data')
+        self.infer_parser.add_argument('-output', required=True, help='output path of inference')
 
     def parse_train_args(self):
         args = self.train_parser.parse_args()
         print args.train
+        print args.model
+        print args.rule
+        print args.num_topic
+        print args.alpha
+        print args.beta
+        print args.burn_in
+        print args.max_iter
         print args.slient
 
     def parse_infer_args(self):
         args = self.infer_parser.parse_args()
         print args.test
+        print args.output
+        print args.model
+        print args.alpha
+        print args.beta
+        print args.burn_in
 
 if __name__ == '__main__':
     util = ArgUtil()
