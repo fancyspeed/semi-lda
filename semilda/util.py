@@ -31,27 +31,31 @@ class ArgUtil(object):
 
     def parse_train_args(self):
         args = self.train_parser.parse_args()
-        print args.train
-        print args.model
-        print args.rule
-        print args.num_topic
-        print args.alpha
-        print args.beta
-        print args.burn_in
-        print args.max_iter
-        print args.slient
+        return args
 
     def parse_infer_args(self):
         args = self.infer_parser.parse_args()
-        print args.test
-        print args.output
-        print args.model
-        print args.alpha
-        print args.beta
-        print args.burn_in
+        return args
+
+class Loader(object):
+    
+    @staticmethod
+    def load_train(p_train):
+        #topic_dict = {}
+        doc_list = []
+
+        f=lambda v: tuple(v.split(':', 1)) if v.count(':')>=1 else (v, 1)
+
+        for line in open(p_train):
+            row = line.rstrip().split(' ')
+            label_list = [v for v in row[0] if v]
+            word_list = [f(v) for v in row[1:] if v]
+            doc_list.append( (word_list, label_list) )
+        return doc_list
 
 if __name__ == '__main__':
     util = ArgUtil()
-    util.parse_train_args()
+    print util.parse_train_args()
 
+    train = Loader.load_train(sys.argv[2])
 
