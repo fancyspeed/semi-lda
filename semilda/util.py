@@ -37,7 +37,7 @@ class ArgUtil(object):
         args = self.infer_parser.parse_args()
         return args
 
-class Loader(object):
+class DataLoader(object):
     
     @staticmethod
     def load_train(p_train):
@@ -53,9 +53,17 @@ class Loader(object):
             doc_list.append( (word_list, label_list) )
         return doc_list
 
+    @staticmethod
+    def load_rule(p_rule):
+        pass
+
+    @staticmethod
+    def load_test(p_test):
+        pass
+
 if __name__ == '__main__':
     util = ArgUtil()
     print util.parse_train_args()
 
-    train = Loader.load_train(sys.argv[2])
+    train = DataLoader.load_train(sys.argv[2])
 

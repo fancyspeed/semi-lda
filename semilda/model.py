@@ -6,6 +6,11 @@ class Topic:
         self.topic_name = topic_name
         self.word_list = []
 
+class Rule:
+
+    def __init__(self):
+        pass
+
 
 class Model:
     
@@ -23,6 +28,10 @@ class Model:
 
 
 class Sampler:
+
+    def init(self, model, corpus):
+        self.model = model
+        self.corpus = corpus
 
     def sample_corpus(self):
         pass

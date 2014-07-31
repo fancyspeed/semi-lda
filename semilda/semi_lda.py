@@ -1,9 +1,10 @@
 #coding: utf-8
+from corpus import Corpus
+from model import Sampler, Model, Rule
 
 class SemiLDA(object):
     
     def __init__(self, args):
-        pass
 
     def train(self):
         pass
