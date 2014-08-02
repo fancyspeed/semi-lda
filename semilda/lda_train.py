@@ -5,8 +5,10 @@ from util import ArgUtil
 
 def main():
     arg_util = ArgUtil()
-    args = arg_utl.parse_train_args()
+    args = arg_util.parse_train_args()
 
     lda = SemiLDA(args)
-    lda.infer()  
+    lda.train()  
 
+if __name__ == '__main__':
+    main()

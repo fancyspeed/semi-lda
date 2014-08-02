@@ -4,9 +4,11 @@ from semi_lda import SemiLDA
 from util import ArgUtil
 
 if __name__ == '__main__':
-    util = ArgUtil()
-    args = util.parse_train_args()
+    arg_util = ArgUtil()
+    args = arg_util.parse_infer_args()
 
     lda = SemiLDA(args)
-    lda.train()  
+    lda.infer()  
 
+if __name__ == '__main__':
+    main()
