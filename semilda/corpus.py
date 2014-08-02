@@ -1,4 +1,5 @@
 #coding: utf-8
+import random
 
 class Document:
     
@@ -31,7 +32,16 @@ class Corpus:
                 else: 
                     word, count = element, 1
                 word_int = model.add_word(word)
-                word_list.extend( [word_int] * int(count) )
+
+                for i in range(int(count)): 
+                    if label_list and random.randint(0, 1) == 0:
+                        topic = label_list[random.randint(0, len(label_list)-1)] 
+                    elif model.word_seed_list[word_int] and random.randint(0, 1) == 0:
+                        topic = model.word_seed_list[word_int][random.randint(0, len(model.word_seed_list[word_int])-1)]
+                    else:
+                        topic = random.randint(0, model.topic_num-1)
+                    word_list.append( (word_int, topic) )
+
 
             doc = Document(label_list, word_list)
             self.doc_list.append(doc)
@@ -40,8 +50,5 @@ class Corpus:
         print 'docs', len(self.doc_list)
         print 'words', len(model.word_seed_list)
             
-
-
-
 
 

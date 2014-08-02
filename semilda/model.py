@@ -15,9 +15,6 @@ class Model:
     def init_model(self, num_topic):
         self.topic_num = num_topic
 
-    def load_model(self, p_model):
-        pass
-
     def add_topic(self, label):
         if label not in self.label2int:
             label_int = len(self.label2int) 
@@ -32,7 +29,7 @@ class Model:
             word_int = len(self.word2int)
             self.int2word[word_int] = word
             self.word2int[word] = word_int
-            self.word_seed_list.append({})
+            self.word_seed_list.append([])
             self.word_topic_list.append({})
         return self.word2int[word]
 
@@ -46,13 +43,16 @@ class Model:
 
             for word in row[1:]:
                 word_int = self.add_word(word)
-                self.word_topic_list[word_int][label_int] = 1
+                if label_int not in self.word_seed_list[word_int]:
+                    self.word_seed_list[word_int].append(label_int)
 
 
     def loglikelihood(self):
         pass
 
-    def stat_corpus(self):
+    def update_model(self, corpus):
         pass
 
+    def load_model(self, p_model):
+        pass
 
