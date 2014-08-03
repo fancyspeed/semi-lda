@@ -19,17 +19,17 @@ Besides topics appear in training data and the rule file, new topics can also be
 
     label2 word3,word4 ...
 
-(compatible with LibSVM.)
+(also compatible with LibSVM.)
 
 ## Example
 
 * train:
 
-    $ python lda\_train.py -train train.txt -rule rule.txt -k 20 -alpha 0.5 -beta 0.1 -burnin 50 -iter 100 -model model.txt
+    $ python lda\_train.py -train train.txt -rule rule.txt -k 5 -alpha 0.1 -beta 0.01 -burnin 50 -iter 50 -model model.txt
 
 * inference:
 
-    $ python lda\_infer.py -model model.txt -alpha 0.5 -beta 0.1 -burnin 50 -test test.txt -output result.txt
+    $ python lda\_infer.py -model model.txt -test test.txt -output output.txt -burnin 50 -iter 50
 
 ## Evaluation
 
