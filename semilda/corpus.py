@@ -25,10 +25,11 @@ class Corpus:
 
             labels = row[0]
             label_list = []
-            for label in labels.split(','): 
-                if not label: continue
-                label_int = model.add_topic(label)
-                label_list.append(label_int)
+            if update:
+                for label in labels.split(','): 
+                    if not label: continue
+                    label_int = model.add_topic(label)
+                    label_list.append(label_int)
 
             words = row[1:]
             word_list = []
