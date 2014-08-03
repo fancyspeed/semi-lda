@@ -19,6 +19,8 @@ Besides topics appear in training data and the rule file, new topics can also be
 
     label2 word3,word4 ...
 
+(compatible with LibSVM.)
+
 ## Example
 
 * train:

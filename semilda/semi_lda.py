@@ -14,7 +14,7 @@ class SemiLDA(object):
                 self.model.load_model(args.model)    
         except: # train: init corpus and model
             self.corpus = Corpus()
-            self.model.init_model(args.num_topic)
+            self.model.init_model(args)
             if args.rule:
                 self.model.load_rules(args.rule)
             self.corpus.init_corpus_and_model(args.train, self.model) 
@@ -24,12 +24,17 @@ class SemiLDA(object):
     def train(self):
         for i in range(self.args.burn_in):
             self.sampler.sample_corpus(self.corpus)
+            if not self.args.slient:
+                self.sampler.loglikelihood(self.corpus)
         for i in range(self.args.max_iter):
             self.sampler.sample_corpus(self.corpus)
+            self.model.accumulative()
+            if not self.args.slient:
+                self.sampler.loglikelihood(self.corpus)
+        self.model.save_model(self.args.model)
 
     def infer(self):
-        for i in range(self.args.burn_in):
-            self.sampler.sample_test(self.args.test)
+        self.sampler.sample_test(self.args.test, self.args.output, self.args.burn_in, self.args.max_iter)
 
 
 def test():

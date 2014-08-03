@@ -3,17 +3,29 @@
 class Model:
     
     def __init__(self):
-        self.topic_num = 0 
         self.word_seed_list = []
-        self.word_topic_list = []
+        self.topic_word_count = [] 
+        self.topic_count = [] 
 
         self.label2int = {}
         self.int2label = {}
         self.word2int = {}
         self.int2word = {}
 
-    def init_model(self, num_topic):
-        self.topic_num = num_topic
+        self.accu_topic_word_count = []
+        self.accu_topic_count = []
+
+    def init_model(self, args):
+        self.alpha = args.alpha
+        self.beta = args.beta
+        self.topic_num = args.num_topic
+        self.word_num = 0
+
+        for i in range(args.num_topic):
+            self.topic_word_count.append({})
+            self.topic_count.append(0)
+            self.accu_topic_word_count.append({})
+            self.accu_topic_count.append(0)
 
     def add_topic(self, label):
         if label not in self.label2int:
@@ -22,6 +34,10 @@ class Model:
             self.int2label[label_int] = label
             if label_int >= self.topic_num:
                 self.topic_num += 1
+                self.topic_word_count.append({})
+                self.topic_count.append(0)
+                self.accu_topic_word_count.append({})
+                self.accu_topic_count.append(0)
         return self.label2int[label]
 
     def add_word(self, word):
@@ -30,8 +46,11 @@ class Model:
             self.int2word[word_int] = word
             self.word2int[word] = word_int
             self.word_seed_list.append([])
-            self.word_topic_list.append({})
+            self.word_num += 1
         return self.word2int[word]
+
+    def get_word(self, word):
+        return self.word2int.get(word, -1)
 
     def load_rules(self, p_rule):
         for line in open(p_rule):
@@ -47,12 +66,38 @@ class Model:
                     self.word_seed_list[word_int].append(label_int)
 
 
-    def loglikelihood(self):
-        pass
-
-    def update_model(self, corpus):
-        pass
+    def accumulative(self):
+        for topic, word_count in enumerate(self.topic_word_count):
+            for word in word_count:
+                count = word_count[word]
+                self.accu_topic_word_count[topic][word] = self.accu_topic_word_count[topic].get(word, 0) + count
+                self.accu_topic_count[topic] += count 
 
     def load_model(self, p_model):
-        pass
+        fin = open(p_model)
+        
+        self.alpha, self.beta, self.topic_num, self.word_num = eval(fin.readline().rstrip())
+        self.word_seed_list = eval(fin.readline().rstrip())
+        self.topic_word_count = eval(fin.readline().rstrip())
+        self.topic_count = eval(fin.readline().rstrip())
+        self.label2int = eval(fin.readline().rstrip())
+        self.int2label = eval(fin.readline().rstrip())
+        self.word2int = eval(fin.readline().rstrip())
+        self.int2word = eval(fin.readline().rstrip())
+
+        fin.close()
+
+    def save_model(self, p_model):
+        fo = open(p_model, 'w')
+
+        fo.write(repr([self.alpha, self.beta, self.topic_num, self.word_num]) + '\n')
+        fo.write(repr(self.word_seed_list) + '\n')
+        fo.write(repr(self.accu_topic_word_count) + '\n')
+        fo.write(repr(self.accu_topic_count) + '\n')
+        fo.write(repr(self.label2int) + '\n')
+        fo.write(repr(self.int2label) + '\n')
+        fo.write(repr(self.word2int) + '\n')
+        fo.write(repr(self.int2word) + '\n')
+
+        fo.close()
 

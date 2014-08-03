@@ -1,6 +1,6 @@
 #coding: utf-8
 
-_version_ = '0.01'
+_version_ = '0.1'
 
 _module_name_ = 'semi-lda'
 

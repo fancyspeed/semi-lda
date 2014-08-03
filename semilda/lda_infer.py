@@ -3,7 +3,7 @@ import sys
 from semi_lda import SemiLDA
 from util import ArgUtil
 
-if __name__ == '__main__':
+def main():
     arg_util = ArgUtil()
     args = arg_util.parse_infer_args()
 
