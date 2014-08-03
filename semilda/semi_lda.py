@@ -25,20 +25,19 @@ class SemiLDA(object):
         for i in range(self.args.burn_in):
             self.sampler.sample_corpus(self.corpus)
             if not self.args.slient:
-                self.sampler.loglikelihood(self.corpus)
+                loglike = self.sampler.loglikelihood(self.corpus)
+                print 'burn in:%s, loglikelihood:%s' % (i, loglike) 
         for i in range(self.args.max_iter):
             self.sampler.sample_corpus(self.corpus)
             self.model.accumulative()
             if not self.args.slient:
-                self.sampler.loglikelihood(self.corpus)
+                loglike = self.sampler.loglikelihood(self.corpus)
+                print 'iter:%s, loglikelihood:%s' % (i, loglike) 
         self.model.save_model(self.args.model)
+        if self.args.dump:
+            self.model.dump_topic_words(self.args.dump)
 
     def infer(self):
         self.sampler.sample_test(self.args.test, self.args.output, self.args.burn_in, self.args.max_iter)
 
 
-def test():
-    pass
-
-if __name__ == '__main__':
-    test()

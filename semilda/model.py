@@ -56,11 +56,12 @@ class Model:
         for line in open(p_rule):
             if not line.strip() or line.startswith('#'): continue
             row = line.rstrip().split(' ')
+            if len(row) != 2: continue 
 
             label = row[0]
             label_int = self.add_topic(label)
 
-            for word in row[1:]:
+            for word in row[1].split(','):
                 word_int = self.add_word(word)
                 if label_int not in self.word_seed_list[word_int]:
                     self.word_seed_list[word_int].append(label_int)
@@ -99,5 +100,15 @@ class Model:
         fo.write(repr(self.word2int) + '\n')
         fo.write(repr(self.int2word) + '\n')
 
+        fo.close()
+
+    def dump_topic_words(self, p_dump):
+        fo = open(p_dump, 'w')
+        for topic in range(self.topic_num):
+            word_count = self.accu_topic_word_count[topic]
+            sort_list = sorted(word_count.items(), key=lambda d:-d[1])
+            result_list = ['%s:%s' % (self.int2word[k], v) for k, v in sort_list]
+            topic_name = self.int2label.get(topic, 'anonymous_%s'%topic)
+            fo.write('%s %s\n' % (topic_name, ' '.join(result_list)))
         fo.close()
 

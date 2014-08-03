@@ -1,5 +1,6 @@
 #coding: utf-8
 import random
+import math
 from corpus import Corpus
 
 class Sampler:
@@ -64,6 +65,26 @@ class Sampler:
         
 
     def loglikelihood(self, corpus):
-        pass
-
+        # loglikelihood = sum_d sum_w log sum_z p(w|z)p(z|d)
+        # p(z|d) = (doc.topic_count[z] + alpha) / (doc.length + topic_num * alpha)
+        # p(w|z) = (topic_word_count[z][w] + beta) / (topic_count[z] + word_num * beta)
+        sum_d = 0
+        for doc in corpus.doc_list:
+            p_z_ds = [] 
+            for topic in range(self.model.topic_num):
+                doc_topic = doc.topic_count.get(topic, 0) + self.model.alpha
+                p_z_d = doc_topic / (len(doc.word_list) + self.model.topic_num * self.model.alpha) 
+                p_z_ds.append( p_z_d )
+            sum_w = 0
+            for pair in doc.word_list:
+                word = pair[0]
+                topic_total = self.model.topic_count[topic] + self.model.word_num * self.model.beta
+                sum_z = 0         
+                for topic in range(self.model.topic_num):
+                    topic_word = self.model.topic_word_count[topic].get(word, 0) + self.model.beta
+                    p_w_z = topic_word / topic_total 
+                    sum_z += p_w_z * p_z_ds[topic]
+                sum_w += math.log(sum_z)
+            sum_d += sum_w
+        return sum_d
 

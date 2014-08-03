@@ -18,6 +18,7 @@ class ArgUtil(object):
                                          epilog='if inference, please use lda_infer.py')
         self.train_parser.add_argument('-train', required=True, help='training data')
         self.train_parser.add_argument('-rule', nargs='?', help='rule data (optional)')
+        self.train_parser.add_argument('-dump', nargs='?', help='dump topic words (optional)')
         self.train_parser.add_argument('-alpha', type=float, default=0.5, help='alpha')
         self.train_parser.add_argument('-beta', type=float, default=0.1, help='beta')
         self.train_parser.add_argument('-k', dest='num_topic', type=int, required=True, help='total number of topics')

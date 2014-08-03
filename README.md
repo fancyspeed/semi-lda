@@ -25,7 +25,7 @@ Besides topics appear in training data and the rule file, new topics can also be
 
 * train:
 
-    $ python lda\_train.py -train train.txt -rule rule.txt -k 5 -alpha 0.1 -beta 0.01 -burnin 50 -iter 50 -model model.txt
+    $ python lda\_train.py -train train.txt -rule rule.txt -k 5 -alpha 0.1 -beta 0.01 -burnin 50 -iter 50 -model model.txt -dump topic_words.txt
 
 * inference:
 
