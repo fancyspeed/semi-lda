@@ -57,9 +57,9 @@ class Corpus:
                     word_list.append( [word_int, topic] )
                     topic_count[topic] = topic_count.get(topic, 0) + 1
                     if update:
-
                         model.topic_word_count[topic][word_int] = model.topic_word_count[topic].get(word_int, 0) + 1
                         model.topic_count[topic] += 1.
+                        model.word_count[word_int] += 1. 
             doc = Document(word_list, label_list, topic_count)
             return doc
         else:

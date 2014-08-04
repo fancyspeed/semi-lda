@@ -44,17 +44,26 @@ class Sampler:
             
 
     def sample_word(self, word, doc):
-        if doc.label_list and random.randint(0, 1) == 0:
-            return doc.label_list[random.randint(0, len(doc.label_list)-1)]
-        elif self.model.word_seed_list[word] and random.randint(0, 1) == 0:
+        if self.model.word_seed_list[word] and random.randint(0, 1) == 0:
             return self.model.word_seed_list[word][random.randint(0, len(self.model.word_seed_list[word]) - 1)]
+
+        elif doc.label_list and random.randint(0, 1) == 0:
+            return doc.label_list[random.randint(0, len(doc.label_list)-1)]
+
         topic_probs = [] 
         for topic in range(self.model.topic_num): 
             topic_word = self.model.topic_word_count[topic].get(word, 0) + self.model.beta
             topic_total = self.model.topic_count[topic] + self.model.word_num * self.model.beta
             doc_topic = doc.topic_count.get(topic, 0) + self.model.alpha 
-            topic_p = topic_word * doc_topic / topic_total
+
+            word_total = self.model.word_count[word] + self.model.word_num * self.model.beta #!!!
+
+            topic_p = topic_word * doc_topic / topic_total / word_total #!!!
             topic_probs.append(topic_p)
+
+        #for label in doc.label_list: #!!!
+        #    topic_probs[label] *= 5 #!!!
+
         rand_p = random.random() * sum(topic_probs)
         accu = 0
         for i, p in enumerate(topic_probs):

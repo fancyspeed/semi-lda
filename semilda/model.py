@@ -6,6 +6,7 @@ class Model:
         self.word_seed_list = []
         self.topic_word_count = [] 
         self.topic_count = [] 
+        self.word_count = []
 
         self.label2int = {}
         self.int2label = {}
@@ -46,6 +47,7 @@ class Model:
             self.int2word[word_int] = word
             self.word2int[word] = word_int
             self.word_seed_list.append([])
+            self.word_count.append(0)
             self.word_num += 1
         return self.word2int[word]
 
@@ -72,7 +74,7 @@ class Model:
             for word in word_count:
                 count = word_count[word]
                 self.accu_topic_word_count[topic][word] = self.accu_topic_word_count[topic].get(word, 0) + count
-                self.accu_topic_count[topic] += count 
+            self.accu_topic_count[topic] += self.topic_count[topic]
 
     def load_model(self, p_model):
         fin = open(p_model)
@@ -81,6 +83,7 @@ class Model:
         self.word_seed_list = eval(fin.readline().rstrip())
         self.topic_word_count = eval(fin.readline().rstrip())
         self.topic_count = eval(fin.readline().rstrip())
+        self.word_count = eval(fin.readline().rstrip())
         self.label2int = eval(fin.readline().rstrip())
         self.int2label = eval(fin.readline().rstrip())
         self.word2int = eval(fin.readline().rstrip())
@@ -95,6 +98,7 @@ class Model:
         fo.write(repr(self.word_seed_list) + '\n')
         fo.write(repr(self.accu_topic_word_count) + '\n')
         fo.write(repr(self.accu_topic_count) + '\n')
+        fo.write(repr(self.word_count) + '\n')
         fo.write(repr(self.label2int) + '\n')
         fo.write(repr(self.int2label) + '\n')
         fo.write(repr(self.word2int) + '\n')
