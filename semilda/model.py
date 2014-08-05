@@ -21,6 +21,7 @@ class Model:
         self.beta = args.beta
         self.topic_num = args.num_topic
         self.word_num = 0
+        self.doc_num = 0
 
         for i in range(args.num_topic):
             self.topic_word_count.append({})
@@ -61,9 +62,11 @@ class Model:
             if len(row) != 2: continue 
 
             label = row[0]
+            if not label: continue
             label_int = self.add_topic(label)
 
             for word in row[1].split(','):
+                if not word: continue
                 word_int = self.add_word(word)
                 if label_int not in self.word_seed_list[word_int]:
                     self.word_seed_list[word_int].append(label_int)
@@ -79,7 +82,7 @@ class Model:
     def load_model(self, p_model):
         fin = open(p_model)
         
-        self.alpha, self.beta, self.topic_num, self.word_num = eval(fin.readline().rstrip())
+        self.alpha, self.beta, self.topic_num, self.word_num, self.doc_num = eval(fin.readline().rstrip())
         self.word_seed_list = eval(fin.readline().rstrip())
         self.topic_word_count = eval(fin.readline().rstrip())
         self.topic_count = eval(fin.readline().rstrip())
@@ -94,7 +97,7 @@ class Model:
     def save_model(self, p_model):
         fo = open(p_model, 'w')
 
-        fo.write(repr([self.alpha, self.beta, self.topic_num, self.word_num]) + '\n')
+        fo.write(repr([self.alpha, self.beta, self.topic_num, self.word_num, self.doc_num]) + '\n')
         fo.write(repr(self.word_seed_list) + '\n')
         fo.write(repr(self.accu_topic_word_count) + '\n')
         fo.write(repr(self.accu_topic_count) + '\n')

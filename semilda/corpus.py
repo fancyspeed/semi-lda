@@ -48,12 +48,13 @@ class Corpus:
                         continue
 
                 for i in range(int(count)): 
-                    if label_list and random.randint(0, 1) == 0:
-                        topic = label_list[random.randint(0, len(label_list)-1)] 
-                    elif model.word_seed_list[word_int] and random.randint(0, 1) == 0:
+                    if model.word_seed_list[word_int] and random.randint(0, 1) == 0:
                         topic = model.word_seed_list[word_int][random.randint(0, len(model.word_seed_list[word_int])-1)]
+                    elif label_list and random.randint(0, 1) == 0:
+                        topic = label_list[random.randint(0, len(label_list)-1)] 
                     else:
                         topic = random.randint(0, model.topic_num-1)
+
                     word_list.append( [word_int, topic] )
                     topic_count[topic] = topic_count.get(topic, 0) + 1
                     if update:
@@ -70,6 +71,7 @@ class Corpus:
             doc = Corpus.init_doc(line, model, update=True)
             if not doc: continue
             self.doc_list.append(doc)
+            model.doc_num += 1
         print 'topics', model.topic_num
         print 'docs', len(self.doc_list)
         print 'words', len(model.word_seed_list)
