@@ -18,9 +18,9 @@ class Sampler:
             doc = Corpus.init_doc(line, self.model, update=False) 
             if not doc: 
                 fo.write('\n') 
-            for i in range(burn_in):
+            for i in xrange(burn_in):
                 self.sample_doc(doc, update=False)
-            for i in range(max_iter):
+            for i in xrange(max_iter):
                 self.sample_doc(doc, update=False)
                 doc.accumulative()
             sort_list = sorted(doc.accu_topic_count.items(), key=lambda d:-d[1])
@@ -58,7 +58,7 @@ class Sampler:
         #    return doc.label_list[random.randint(0, len(doc.label_list)-1)]
 
         topic_probs = [] 
-        for topic in range(self.model.topic_num): 
+        for topic in xrange(self.model.topic_num): 
             topic_word = self.model.topic_word_count[topic].get(word, 0) + self.model.beta
             topic_total = self.model.topic_count[topic] + self.model.word_num * self.model.beta
             doc_topic = doc.topic_count.get(topic, 0) + self.model.alpha 
@@ -69,13 +69,13 @@ class Sampler:
             topic_probs.append(topic_p)
 
         for label in doc.label_list: #!!!
-            topic_probs[label] *= 5 #!!!
+            topic_probs[label] *= 10 #!!!
 
         rand_p = random.random() * sum(topic_probs)
-        sofar = 0
+        so_far = 0
         for i, p in enumerate(topic_probs):
-            sofar += p
-            if sofar >= rand_p:
+            so_far += p
+            if so_far >= rand_p:
                 return i
         return random.randint(0, self.model.topic_num - 1)
         
@@ -88,20 +88,22 @@ class Sampler:
         for doc in corpus.doc_list:
             p_z_ds = [] 
             doc_total = len(doc.word_list) + self.model.topic_num * self.model.alpha
-            for topic in range(self.model.topic_num):
+            for topic in xrange(self.model.topic_num):
                 doc_topic = doc.topic_count.get(topic, 0) + self.model.alpha
                 p_z_d = doc_topic / doc_total 
                 p_z_ds.append( p_z_d )
+
             sum_w = 0
             for pair in doc.word_list:
                 word = pair[0]
                 topic_total = self.model.topic_count[topic] + self.model.word_num * self.model.beta
                 sum_z = 0         
-                for topic in range(self.model.topic_num):
+                for topic in xrange(self.model.topic_num):
                     topic_word = self.model.topic_word_count[topic].get(word, 0) + self.model.beta
                     p_w_z = topic_word / topic_total 
                     sum_z += p_w_z * p_z_ds[topic]
                 sum_w += math.log(sum_z)
+
             sum_d += sum_w
         return sum_d 
 

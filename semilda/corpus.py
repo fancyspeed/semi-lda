@@ -1,5 +1,6 @@
 #coding: utf-8
 import random
+import math
 
 class Document:
     
@@ -22,22 +23,24 @@ class Corpus:
     def init_doc(line, model, update=True):
         if line.rstrip() and line[0]!='#':
             row = line.rstrip().split(' ')
+            #labels = row[0]
+            #words = row[1:]
 
-            labels = row[0]
             label_list = []
             if update:
-                for label in labels.split(','): 
+                for label in row[0].split(','): 
                     if not label: continue
                     label_int = model.add_topic(label)
                     label_list.append(label_int)
 
-            words = row[1:]
+            if len(row) <= 2: return None 
+
             word_list = []
             topic_count = {}
-
-            for element in words:
+            for element in row[1:]:
                 if element.count(':') == 1:
                     word, count = element.split(':')
+                    count = max(1, min(10, math.floor(float(count))))#int(count)
                 else: 
                     word, count = element, 1
                 if update:
@@ -47,7 +50,7 @@ class Corpus:
                     if word_int < 0: 
                         continue
 
-                for i in range(int(count)): 
+                for i in xrange(count): 
                     if model.word_seed_list[word_int] and random.randint(0, 1) == 0:
                         topic = model.word_seed_list[word_int][random.randint(0, len(model.word_seed_list[word_int])-1)]
                     elif label_list and random.randint(0, 1) == 0:

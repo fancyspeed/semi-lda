@@ -22,12 +22,12 @@ class SemiLDA(object):
         self.sampler = Sampler(self.model)
 
     def train(self):
-        for i in range(self.args.burn_in):
+        for i in xrange(self.args.burn_in):
             self.sampler.sample_corpus(self.corpus)
             if not self.args.slient:
                 loglike = self.sampler.loglikelihood(self.corpus)
                 print 'burn in:%s, loglikelihood:%s' % (i, loglike) 
-        for i in range(self.args.max_iter):
+        for i in xrange(self.args.max_iter):
             self.sampler.sample_corpus(self.corpus)
             self.model.accumulative()
             if not self.args.slient:
