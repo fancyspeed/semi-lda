@@ -16,16 +16,12 @@ class Model:
         self.accu_topic_word_count = []
         self.accu_topic_count = []
 
-        self.alpha = 0.1 
-        self.beta = 0.01 
-        self.topic_num = 10
-        self.word_num = 0
-        self.doc_num = 0
-
     def init_model(self, cmd_args):
         self.alpha = cmd_args.alpha
         self.beta = cmd_args.beta
         self.topic_num = cmd_args.num_topic
+        self.word_num = 0
+        self.doc_num = 0
 
         for i in range(cmd_args.num_topic):
             self.topic_count.append(0)

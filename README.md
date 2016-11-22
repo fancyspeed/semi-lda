@@ -35,8 +35,3 @@ Besides topics appear in training data and the rule file, new topics can also be
 
 Model performance is evaluated by `log-likelihood`.
 
-## Other plans
-
-* downgrade hot words
-* support continuous-valued word frequences
-* utilization of contextual information
