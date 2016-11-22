@@ -31,12 +31,12 @@ class ArgUtil(object):
         self.infer_parser.add_argument('-output', required=True, help='output path of inference')
 
     def parse_train_args(self):
-        args = self.train_parser.parse_args()
-        return args
+        cmd_args = self.train_parser.parse_args()
+        return cmd_args
 
     def parse_infer_args(self):
-        args = self.infer_parser.parse_args()
-        return args
+        cmd_args = self.infer_parser.parse_args()
+        return cmd_args
 
 class DataLoader(object):
     

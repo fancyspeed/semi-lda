@@ -40,7 +40,7 @@ class Corpus:
             for element in row[1:]:
                 if element.count(':') == 1:
                     word, count = element.split(':')
-                    count = max(1, min(10, math.floor(float(count))))#int(count)
+                    count = max(1, min(10, int(math.floor(float(count))))) #int(count)
                 else: 
                     word, count = element, 1
                 if update:

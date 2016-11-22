@@ -31,18 +31,17 @@ class ArgUtil(object):
         self.infer_parser.add_argument('-output', required=True, help='output path of inference')
 
     def parse_train_args(self):
-        args = self.train_parser.parse_args()
-        return args
+        cmd_args = self.train_parser.parse_args()
+        return cmd_args
 
     def parse_infer_args(self):
-        args = self.infer_parser.parse_args()
-        return args
+        cmd_args = self.infer_parser.parse_args()
+        return cmd_args
 
 class DataLoader(object):
     
     @staticmethod
     def load_train(p_train):
-        #topic_dict = {}
         doc_list = []
 
         f=lambda v: tuple(v.split(':', 1)) if v.count(':')>=1 else (v, 1)
@@ -54,13 +53,6 @@ class DataLoader(object):
             doc_list.append( (word_list, label_list) )
         return doc_list
 
-    @staticmethod
-    def load_rule(p_rule):
-        pass
-
-    @staticmethod
-    def load_test(p_test):
-        pass
 
 if __name__ == '__main__':
     util = ArgUtil()

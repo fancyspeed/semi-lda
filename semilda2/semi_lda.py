@@ -5,19 +5,19 @@ from sampler import Sampler
 
 class SemiLDA(object):
     
-    def __init__(self, args):
-        self.args = args
+    def __init__(self, cmd_args, flag):
+        self.args = cmd_args
         self.model = Model()
 
-        try: # test: load model
-            if args.test:
-                self.model.load_model(args.model)    
-        except: # train: init corpus and model
+        # test: load model
+        if flag=='infer':
+            self.model.load_model(cmd_args.model)    
+        else: # train: init corpus and model
             self.corpus = Corpus()
-            self.model.init_model(args)
-            if args.rule:
-                self.model.load_rules(args.rule)
-            self.corpus.init_corpus_and_model(args.train, self.model) 
+            self.model.init_model(cmd_args)
+            if cmd_args.rule:
+                self.model.load_rules(cmd_args.rule)
+            self.corpus.init_corpus_and_model(cmd_args.train, self.model) 
         # init sampler
         self.sampler = Sampler(self.model)
 

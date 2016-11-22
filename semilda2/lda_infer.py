@@ -5,9 +5,9 @@ from util import ArgUtil
 
 def main():
     arg_util = ArgUtil()
-    args = arg_util.parse_infer_args()
+    cmd_args = arg_util.parse_infer_args()
 
-    lda = SemiLDA(args)
+    lda = SemiLDA(cmd_args, 'infer')
     lda.infer()  
 
 if __name__ == '__main__':

@@ -16,14 +16,18 @@ class Model:
         self.accu_topic_word_count = []
         self.accu_topic_count = []
 
-    def init_model(self, args):
-        self.alpha = args.alpha
-        self.beta = args.beta
-        self.topic_num = args.num_topic
+        self.alpha = 0.1 
+        self.beta = 0.01 
+        self.topic_num = 10
         self.word_num = 0
         self.doc_num = 0
 
-        for i in range(args.num_topic):
+    def init_model(self, cmd_args):
+        self.alpha = cmd_args.alpha
+        self.beta = cmd_args.beta
+        self.topic_num = cmd_args.num_topic
+
+        for i in range(cmd_args.num_topic):
             self.topic_count.append(0)
             self.accu_topic_count.append(0)
 
@@ -44,8 +48,8 @@ class Model:
             self.int2word[word_int] = word
             self.word2int[word] = word_int
             self.word_seed_list.append([])
-            self.topic_word_count.append([])
-            self.accu_topic_word_count.append([])
+            self.topic_word_count.append({})
+            self.accu_topic_word_count.append({})
             self.word_count.append(0)
             self.word_num += 1
         return self.word2int[word]
@@ -75,7 +79,7 @@ class Model:
             for topic in word_count:
                 count = word_count[topic]
                 self.accu_topic_word_count[word][topic] = self.accu_topic_word_count[word].get(topic, 0) + count
-        for topic in self.topic_count:
+        for topic in range(len(self.topic_count)):
             self.accu_topic_count[topic] += self.topic_count[topic]
 
     def load_model(self, p_model):
@@ -112,7 +116,7 @@ class Model:
         fo = open(p_dump, 'w')
         for topic in range(self.topic_num):
             word_count = {}
-            for word in self.accu_topic_word_count:
+            for word in range(len(self.accu_topic_word_count)):
                 if topic in self.accu_topic_word_count[word]:
                     word_count[word] = self.accu_topic_word_count[word][topic]
             sort_list = sorted(word_count.items(), key=lambda d:-d[1])
