@@ -99,8 +99,8 @@ class Model:
 
         fo.write(repr([self.alpha, self.beta, self.topic_num, self.word_num, self.doc_num]) + '\n')
         fo.write(repr(self.word_seed_list) + '\n')
-        fo.write(repr(self.accu_topic_word_count) + '\n')
-        fo.write(repr(self.accu_topic_count) + '\n')
+        fo.write(repr(self.topic_word_count) + '\n')
+        fo.write(repr(self.topic_count) + '\n')
         fo.write(repr(self.word_count) + '\n')
         fo.write(repr(self.label2int) + '\n')
         fo.write(repr(self.int2label) + '\n')

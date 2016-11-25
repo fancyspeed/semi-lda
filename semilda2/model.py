@@ -68,7 +68,7 @@ class Model:
                 word_int = self.add_word(word)
                 if label_int not in self.word_seed_list[word_int]:
                     self.word_seed_list[word_int].append(label_int)
-
+        print 'rules', len(self.word_seed_list)
 
     def accumulative(self):
         for word, word_count in enumerate(self.topic_word_count):
@@ -98,8 +98,8 @@ class Model:
 
         fo.write(repr([self.alpha, self.beta, self.topic_num, self.word_num, self.doc_num]) + '\n')
         fo.write(repr(self.word_seed_list) + '\n')
-        fo.write(repr(self.accu_topic_word_count) + '\n')
-        fo.write(repr(self.accu_topic_count) + '\n')
+        fo.write(repr(self.topic_word_count) + '\n')
+        fo.write(repr(self.topic_count) + '\n')
         fo.write(repr(self.word_count) + '\n')
         fo.write(repr(self.label2int) + '\n')
         fo.write(repr(self.int2label) + '\n')
@@ -112,12 +112,18 @@ class Model:
         fo = open(p_dump, 'w')
         for topic in range(self.topic_num):
             word_count = {}
-            for word in range(len(self.accu_topic_word_count)):
-                if topic in self.accu_topic_word_count[word]:
-                    word_count[word] = self.accu_topic_word_count[word][topic]
+            for word in range(len(self.topic_word_count)):
+                if topic in self.topic_word_count[word]:
+                    word_count[word] = self.topic_word_count[word][topic]
             sort_list = sorted(word_count.items(), key=lambda d:-d[1])
-            result_list = ['%s:%s' % (self.int2word[k], v) for k, v in sort_list]
+            result_list = ['%s:%s' % (self.int2word[k], v) for k,v in sort_list if v>0][:500]
             topic_name = self.int2label.get(topic, 'anonymous_%s'%topic)
             fo.write('%s %s\n' % (topic_name, ' '.join(result_list)))
         fo.close()
 
+if __name__ == '__main__':
+    import sys
+    model = Model()
+    model.load_model(sys.argv[1])
+    model.save_model(sys.argv[2])
+    model.dump_topic_words(sys.argv[3])
